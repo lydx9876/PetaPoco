@@ -1,38 +1,32 @@
-﻿// <copyright company="PetaPoco - CollaboratingPlatypus">
-//      Apache License, Version 2.0 https://github.com/CollaboratingPlatypus/PetaPoco/blob/master/LICENSE.txt
-// </copyright>
-// <author>PetaPoco - CollaboratingPlatypus</author>
-// <date>2015/12/30</date>
-
-using System;
+﻿using System;
 
 namespace PetaPoco
 {
     /// <summary>
-    ///     Represents an attribute which can decorate a Poco property to mark the property as a column. It may also optionally
-    ///     supply the DB column name.
+    /// 表示此属性为数据表字段，并可以另指定字段名称
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
     public class ColumnAttribute : Attribute
     {
         /// <summary>
-        ///     The column name.
+        /// 获取或设置数据表字段名称
         /// </summary>
         /// <returns>
-        ///     The column name.
+        /// 获取或设置数据表字段名称
         /// </returns>
         public string Name { get; set; }
 
         /// <summary>
-        ///     The column name.
+        /// 获取或设置一个值，该值指示是否将时间转换为 UTC
         /// </summary>
+		/// <value>如果要转换为 UTC，则该值为 <c>true</c>；否则为 <c>false</c>。</value>
         /// <returns>
-        ///     The column name.
+        /// 获取或设置一个值，该值指示是否将时间转换为 UTC.
         /// </returns>
         public bool ForceToUtc { get; set; }
 
         /// <summary>
-        ///     Constructs a new instance of the <seealso cref="ColumnAttribute" />.
+        /// 初始化一个新 <see cref="ColumnAttribute" /> 实例。
         /// </summary>
         public ColumnAttribute()
         {
@@ -40,9 +34,9 @@ namespace PetaPoco
         }
 
         /// <summary>
-        ///     Constructs a new instance of the <seealso cref="ColumnAttribute" />.
+        /// 初始化一个新 <see cref="ColumnAttribute" /> 实例。
         /// </summary>
-        /// <param name="name">The name of the column.</param>
+        /// <param name="name">数据表字段名称.</param>
         public ColumnAttribute(string name)
         {
             Name = name;

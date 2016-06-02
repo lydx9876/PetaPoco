@@ -1,31 +1,25 @@
-﻿// <copyright company="PetaPoco - CollaboratingPlatypus">
-//      Apache License, Version 2.0 https://github.com/CollaboratingPlatypus/PetaPoco/blob/master/LICENSE.txt
-// </copyright>
-// <author>PetaPoco - CollaboratingPlatypus</author>
-// <date>2015/12/30</date>
-
-using System;
+﻿using System;
 
 namespace PetaPoco
 {
     /// <summary>
-    ///     Represents an attribute, which when applied to a Poco class, specifies the the DB table name which it maps to
+    /// 指定数据表名称
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
     public class TableNameAttribute : Attribute
     {
         /// <summary>
-        ///     The table nane of the database that this entity maps to.
+        /// 获取数据表名称
         /// </summary>
         /// <returns>
-        ///     The table nane of the database that this entity maps to.
+        /// 数据表名称
         /// </returns>
         public string Value { get; private set; }
 
         /// <summary>
-        ///     Constructs a new instance of the <seealso cref="TableNameAttribute" />.
+        /// 初始化一个新 <see cref="TableNameAttribute" /> 实例。
         /// </summary>
-        /// <param name="tableName">The table nane of the database that this entity maps to.</param>
+        /// <param name="tableName">数据表名称.</param>
         public TableNameAttribute(string tableName)
         {
             Value = tableName;

@@ -1,10 +1,4 @@
-﻿// <copyright company="PetaPoco - CollaboratingPlatypus">
-//      Apache License, Version 2.0 https://github.com/CollaboratingPlatypus/PetaPoco/blob/master/LICENSE.txt
-// </copyright>
-// <author>PetaPoco - CollaboratingPlatypus</author>
-// <date>2015/12/06</date>
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -15,7 +9,7 @@ using PetaPoco.Internal;
 namespace PetaPoco
 {
     /// <summary>
-    ///     This static manages registation of IMapper instances with PetaPoco
+    /// 对实现了 IMapper 接口的实体实例的管理
     /// </summary>
     public static class Mappers
     {
@@ -23,47 +17,47 @@ namespace PetaPoco
         private static ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
 
         /// <summary>
-        ///     Registers a mapper for all types in a specific assembly
+        /// 对指定程序集里的所有类型注册映射器
         /// </summary>
-        /// <param name="assembly">The assembly whose types are to be managed by this mapper</param>
-        /// <param name="mapper">The IMapper implementation</param>
+        /// <param name="assembly">要注册的程序集</param>
+        /// <param name="mapper">实现了 IMapper 的映射器</param>
         public static void Register(Assembly assembly, IMapper mapper)
         {
             RegisterInternal(assembly, mapper);
         }
 
         /// <summary>
-        ///     Registers a mapper for a single POCO type
+        /// 对单个实体类型注册映射器
         /// </summary>
-        /// <param name="type">The type to be managed by this mapper</param>
-        /// <param name="mapper">The IMapper implementation</param>
+        /// <param name="type">要注册的实体类型</param>
+        /// <param name="mapper">实现了 IMapper 的映射器</param>
         public static void Register(Type type, IMapper mapper)
         {
             RegisterInternal(type, mapper);
         }
 
         /// <summary>
-        ///     Remove all mappers for all types in a specific assembly
+        /// 注销指定程序集里所有类型已注册的映射器
         /// </summary>
-        /// <param name="assembly">The assembly whose mappers are to be revoked</param>
+        /// <param name="assembly">要注销注册的程序集</param>
         public static void Revoke(Assembly assembly)
         {
             RevokeInternal(assembly);
         }
 
         /// <summary>
-        ///     Remove the mapper for a specific type
+        /// 注销指定实体类型已注册的映射器
         /// </summary>
-        /// <param name="type">The type whose mapper is to be removed</param>
+        /// <param name="type">要注销注册的实体类型</param>
         public static void Revoke(Type type)
         {
             RevokeInternal(type);
         }
 
         /// <summary>
-        ///     Revoke an instance of a mapper
+        /// 注销指定的映射器
         /// </summary>
-        /// <param name="mapper">The IMapper to be revkoed</param>
+        /// <param name="mapper">要注销的映射器</param>
         public static void Revoke(IMapper mapper)
         {
             _lock.EnterWriteLock();
@@ -80,7 +74,7 @@ namespace PetaPoco
         }
 
         /// <summary>
-        ///     Revokes all registered mappers.
+        /// 注销所有映射器
         /// </summary>
         public static void RevokeAll()
         {

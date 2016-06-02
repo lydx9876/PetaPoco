@@ -1,15 +1,9 @@
-﻿// <copyright file="ColumnInfo.cs" company="PetaPoco - CollaboratingPlatypus">
-//      Apache License, Version 2.0 https://github.com/CollaboratingPlatypus/PetaPoco/blob/master/LICENSE.txt
-// </copyright>
-// <author>PetaPoco - CollaboratingPlatypus</author>
-// <date>2015/12/05</date>
-
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace PetaPoco
 {
     /// <summary>
-    ///     Hold information about a column in the database.
+    /// 数据表字段信息
     /// </summary>
     /// <remarks>
     ///     Typically ColumnInfo is automatically populated from the attributes on a POCO object and it's properties. It can
@@ -18,28 +12,27 @@ namespace PetaPoco
     public class ColumnInfo
     {
         /// <summary>
-        ///     The SQL name of the column
+        /// 数据表字段名
         /// </summary>
         public string ColumnName { get; set; }
 
         /// <summary>
-        ///     True if this column returns a calculated value from the database and shouldn't be used in Insert and Update
-        ///     operations.
+        /// 如果此字段是从数据库中返回的一个计算量，则将不会用于插入和更新操作
         /// </summary>
+        /// <value>如果此字段是从数据库中返回的一个计算量，则该值为 <c>true</c>；否则为 <c>false</c>。</value>
         public bool ResultColumn { get; set; }
 
         /// <summary>
-        ///     True if time and date values returned through this column should be forced to UTC DateTimeKind. (no conversion is
-        ///     applied - the Kind of the DateTime property
-        ///     is simply set to DateTimeKind.Utc instead of DateTimeKind.Unknown.
+        /// 如果此字段是从数据库中的日期和时间，指定是否强制转换为 UTC
         /// </summary>
+		/// <value>如果要强制转换为 UTC，则该值为 <c>true</c>；否则为 <c>false</c>。</value>
         public bool ForceToUtc { get; set; }
 
         /// <summary>
-        ///     Creates and populates a ColumnInfo from the attributes of a POCO property.
+        /// 将实体属性转换为字段信息
         /// </summary>
-        /// <param name="propertyInfo">The property whose column info is required</param>
-        /// <returns>A ColumnInfo instance</returns>
+        /// <param name="propertyInfo">实体属性</param>
+        /// <returns>字段信息</returns>
         public static ColumnInfo FromProperty(PropertyInfo propertyInfo)
         {
             // Check if declaring poco has [Explicit] attribute

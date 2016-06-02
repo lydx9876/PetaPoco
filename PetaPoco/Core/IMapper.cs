@@ -1,17 +1,10 @@
-﻿// <copyright file="IMapper.cs" company="PetaPoco - CollaboratingPlatypus">
-//      Apache License, Version 2.0 https://github.com/CollaboratingPlatypus/PetaPoco/blob/master/LICENSE.txt
-// </copyright>
-// <author>PetaPoco - CollaboratingPlatypus</author>
-// <date>2015/12/05</date>
-
-using System;
+﻿using System;
 using System.Reflection;
 
 namespace PetaPoco
 {
     /// <summary>
-    ///     IMapper provides a way to hook into PetaPoco's Database to POCO mapping mechanism to either
-    ///     customize or completely replace it.
+    /// 定义数据源到实体的映射接口
     /// </summary>
     /// <remarks>
     ///     To use this functionality, instantiate a class that implements IMapper and then pass it to
@@ -20,10 +13,10 @@ namespace PetaPoco
     public interface IMapper
     {
         /// <summary>
-        ///     Get information about the table associated with a POCO class
+        /// 获取数据表信息
         /// </summary>
-        /// <param name="pocoType">The poco type.</param>
-        /// <returns>A TableInfo instance</returns>
+        /// <param name="pocoType">实体类型.</param>
+        /// <returns>数据表信息</returns>
         /// <remarks>
         ///     This method must return a valid TableInfo.
         ///     To create a TableInfo from a POCO's attributes, use TableInfo.FromPoco
@@ -31,28 +24,28 @@ namespace PetaPoco
         TableInfo GetTableInfo(Type pocoType);
 
         /// <summary>
-        ///     Get information about the column associated with a property of a POCO
+        /// 获取数据表字段信息
         /// </summary>
-        /// <param name="pocoProperty">The PropertyInfo of the property being queried</param>
-        /// <returns>A reference to a ColumnInfo instance, or null to ignore this property</returns>
+        /// <param name="pocoProperty">实体属性信息</param>
+        /// <returns>数据表字段信息</returns>
         /// <remarks>
         ///     To create a ColumnInfo from a property's attributes, use PropertyInfo.FromProperty
         /// </remarks>
         ColumnInfo GetColumnInfo(PropertyInfo pocoProperty);
 
         /// <summary>
-        ///     Supply a function to convert a database value to the correct property value
+        /// 获取将数据源值到实体属性值的转换器
         /// </summary>
-        /// <param name="targetProperty">The target property</param>
-        /// <param name="sourceType">The type of data returned by the DB</param>
-        /// <returns>A Func that can do the conversion, or null for no conversion</returns>
+        /// <param name="targetProperty">目标实体属性信息</param>
+        /// <param name="sourceType">数据源返回来的值的类型</param>
+        /// <returns>数据源值到实体属性值的转换器</returns>
         Func<object, object> GetFromDbConverter(PropertyInfo targetProperty, Type sourceType);
 
         /// <summary>
-        ///     Supply a function to convert a property value into a database value
+        /// 获取将实体属性值到数据源对应值的转换器
         /// </summary>
-        /// <param name="sourceProperty">The property to be converted</param>
-        /// <returns>A Func that can do the conversion</returns>
+        /// <param name="sourceProperty">实体属性信息</param>
+        /// <returns>实体属性值到数据源对应值的转换器</returns>
         /// <remarks>
         ///     This conversion is only used for converting values from POCO's that are
         ///     being Inserted or Updated.

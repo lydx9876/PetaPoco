@@ -1,16 +1,10 @@
-﻿// <copyright company="PetaPoco - CollaboratingPlatypus">
-//      Apache License, Version 2.0 https://github.com/CollaboratingPlatypus/PetaPoco/blob/master/LICENSE.txt
-// </copyright>
-// <author>PetaPoco - CollaboratingPlatypus</author>
-// <date>2015/12/30</date>
-
-using System;
+﻿using System;
 
 namespace PetaPoco
 {
     /// <summary>
-    ///     Represents the attribute which decorates a poco class to state all columns must be explicitly mapped using either a
-    ///     <seealso cref="ColumnAttribute" /> or <seealso cref="ResultColumnAttribute" />.
+    /// 表示此实体按所有标明为字段的属性进行映射
+    /// <seealso cref="ColumnAttribute" /> 或者 <seealso cref="ResultColumnAttribute" />.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
     public class ExplicitColumnsAttribute : Attribute

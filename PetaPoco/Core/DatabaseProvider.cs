@@ -11,6 +11,7 @@ using System.Linq;
 using PetaPoco.Internal;
 using PetaPoco.Providers;
 using PetaPoco.Utilities;
+using System.Collections.Generic;
 
 namespace PetaPoco.Core
 {
@@ -83,7 +84,7 @@ namespace PetaPoco.Core
         public virtual object MapParameterValue(object value)
         {
             if (value is bool)
-                return ((bool) value) ? 1 : 0;
+                return ((bool)value) ? 1 : 0;
 
             return value;
         }
@@ -169,7 +170,7 @@ namespace PetaPoco.Core
             if (ft == null)
                 throw new ArgumentException("Could not load the " + GetType().Name + " DbProviderFactory.");
 
-            return (DbProviderFactory) ft.GetField("Instance").GetValue(null);
+            return (DbProviderFactory)ft.GetField("Instance").GetValue(null);
         }
 
         /// <summary>
@@ -258,5 +259,64 @@ namespace PetaPoco.Core
             // Assume SQL Server
             return Singleton<SqlServerDatabaseProvider>.Instance;
         }
+
+        #region 扩展
+        /// <summary>
+        /// 生成 SQL TOP 查询语句
+        /// </summary>
+        /// <param name="take">要获取记录数</param>
+        /// <param name="dist">指定是否返回非重复记录</param>
+        /// <param name="selectColumns">要获取的字段名列表</param>
+        /// <param name="tableName">表名</param>
+        /// <param name="joins">联合子句</param>
+        /// <param name="where">条件子句</param>
+        /// <param name="orderby">排序子句</param>
+        /// <param name="args">SQL 查询用的参数</param>
+        /// <returns>最终可以执行的 SQL 查询语句</returns>
+        public virtual string BuildTopSql(int take, bool dist, string selectColumns, string tableName, string joins, string where, string orderby, List<object> args)
+        {
+            var sql = string.Format("SELECT {0}{1} FROM {2}{3} {4}{5} LIMIT @{6}",
+                    dist ? "DISTINCT " : string.Empty,
+                    selectColumns,
+                    tableName,
+                    joins,
+                    where,
+                    orderby,
+                    args.Count
+                );
+            args.Add(take);
+            return sql;
+        }
+
+        /// <summary>
+        /// 生成 SQL 分页查询语句
+        /// </summary>
+        /// <param name="skip">要跳过记录数量</param>
+        /// <param name="take">要获取记录数</param>
+        /// <param name="dist">指定是否返回非重复记录</param>
+        /// <param name="selectColumns">要获取的字段名列表</param>
+        /// <param name="tableName">表名</param>
+        /// <param name="joins">联合子句</param>
+        /// <param name="where">条件子句</param>
+        /// <param name="orderby">排序子句</param>
+        /// <param name="args">SQL 查询用的参数</param>
+        /// <returns>最终可以执行的 SQL 查询语句</returns>
+        public virtual string BuildPagedSql(long skip, long take, bool dist, string selectColumns, string tableName, string joins, string where, string orderby, List<object> args)
+        {
+            var sql = string.Format("SELECT {0}{1} FROM {2}{3} {4}{5} LIMIT @{6} OFFSET @{7}",
+                    dist ? "DISTINCT " : string.Empty,
+                    selectColumns,
+                    tableName,
+                    joins,
+                    where,
+                    orderby,
+                    args.Count,
+                    args.Count + 1
+                );
+            args.Add(take);
+            args.Add(skip);
+            return sql;
+        }
+        #endregion
     }
 }

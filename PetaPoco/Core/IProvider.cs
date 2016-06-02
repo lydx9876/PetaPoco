@@ -7,6 +7,7 @@
 using System.Data;
 using System.Data.Common;
 using PetaPoco.Utilities;
+using System.Collections.Generic;
 
 namespace PetaPoco.Core
 {
@@ -51,6 +52,10 @@ namespace PetaPoco.Core
         /// <param name="args">Arguments to any embedded parameters in the SQL query</param>
         /// <returns>The final SQL query that should be executed.</returns>
         string BuildPageQuery(long skip, long take, SQLParts parts, ref object[] args);
+
+        string BuildTopSql(int take, bool dist, string selectColumns, string tableName, string joins, string where, string orderby, List<object> args);
+
+        string BuildPagedSql(long skip, long take, bool dist, string selectColumns, string tableName, string joins, string where, string orderby, List<object> args);
 
         /// <summary>
         ///     Converts a supplied C# object value into a value suitable for passing to the database
